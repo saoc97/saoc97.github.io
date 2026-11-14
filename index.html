@@ -2,39 +2,261 @@
 <html lang="tr">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>SAOC Games</title>
-<meta name="description" content="SAOC Games - Mechaniworks: hurdadan robot yap, eşleştir, dövüş.">
+<meta name="description" content="SAOC Games: tek kişilik bağımsız oyun stüdyosu. Mechaniworks ve Divided Fate.">
+<meta property="og:title" content="SAOC Games">
+<meta property="og:description" content="Tek kişilik bağımsız oyun stüdyosu. Mechaniworks ve Divided Fate.">
+<meta property="og:image" content="https://saoc97.github.io/img/mw_banner.webp">
+<meta name="theme-color" content="#0b0b0d">
+<link rel="icon" href="img/mw_icon.webp">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-  :root{--bg:#0c0d10;--card:#16181c;--line:#2a2d33;--fg:#ece8df;--mut:#9a958b;--acc:#f2b632}
+  /* siteyi oyunların ruhuna göre koyu tuttuk: hurdalık sarısı ve rüya moru iki oyunun rengi */
+  :root{
+    --bg:#0b0b0d; --bg2:#121216; --card:#16161b; --line:#26262e; --fg:#eeebe4; --mut:#9b978f;
+    --mw:#f2b632; --mw2:#e07a1f; --df:#8f7cff; --df2:#3a2a7a;
+    --head:"Chakra Petch",ui-sans-serif,system-ui,sans-serif; --body:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+    color-scheme:dark;
+  }
   *{box-sizing:border-box}
-  body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;padding:32px max(16px,env(safe-area-inset-left)) 40px}
-  main{max-width:560px;margin:0 auto;display:flex;flex-direction:column;gap:20px}
-  .brand{font-weight:800;letter-spacing:.18em;font-size:13px;color:var(--mut)}
-  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px;display:flex;flex-direction:column;gap:12px}
-  .stripe{height:6px;border-radius:3px;background:repeating-linear-gradient(-45deg,var(--acc) 0 10px,#1a1a1a 10px 20px)}
-  h1{margin:0;font-size:28px;letter-spacing:.04em}
-  p{margin:0;color:#cfcac0}
-  .en{color:var(--mut);font-size:14px}
-  .btn{display:inline-block;align-self:flex-start;background:var(--acc);color:#1a1408;font-weight:700;text-decoration:none;padding:12px 20px;border-radius:10px}
-  footer{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:14px;color:var(--mut)}
-  footer a{color:var(--mut)}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.55 var(--body);-webkit-font-smoothing:antialiased}
+  a{color:inherit}
+  img{max-width:100%;display:block}
+  .wrap{max-width:1040px;margin:0 auto;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
+
+  /* üst çubuk */
+  header{position:sticky;top:0;z-index:10;background:rgba(11,11,13,.82);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,.05);padding-top:env(safe-area-inset-top,0px)}
+  header .wrap{display:flex;align-items:center;gap:16px;height:60px}
+  .logo{font:700 18px/1 var(--head);letter-spacing:.28em;text-decoration:none;background:linear-gradient(180deg,#fff 0%,#c9cdd3 55%,#8d939b 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .logo small{display:inline-block;margin-left:.5em;font-size:11px;letter-spacing:.35em;color:var(--mut);-webkit-text-fill-color:var(--mut)}
+  nav{margin-left:auto;display:flex;gap:4px;align-items:center}
+  nav a{text-decoration:none;color:var(--mut);font-size:14px;font-weight:500;padding:8px 10px;border-radius:8px}
+  nav a:hover{color:var(--fg);background:rgba(255,255,255,.05)}
+  .lang{border:1px solid var(--line);background:transparent;color:var(--fg);font:600 12px/1 var(--body);letter-spacing:.08em;padding:8px 10px;border-radius:8px;cursor:pointer}
+  .lang:hover{border-color:#3a3a44}
+
+  /* giriş */
+  .hero{position:relative;overflow:hidden;padding:84px 0 64px}
+  .hero::before{content:"";position:absolute;inset:-20% -10% auto;height:520px;background:radial-gradient(40% 60% at 25% 40%,rgba(242,182,50,.16),transparent 70%),radial-gradient(35% 55% at 80% 30%,rgba(143,124,255,.16),transparent 70%);pointer-events:none}
+  .hero .wrap{position:relative}
+  .eyebrow{font:600 12px/1 var(--head);letter-spacing:.3em;color:var(--mut);text-transform:uppercase}
+  .hero h1{font:700 clamp(36px,7vw,68px)/1.02 var(--head);margin:14px 0 18px;letter-spacing:.01em;text-wrap:balance;max-width:14ch}
+  .hero h1 em{font-style:normal;background:linear-gradient(90deg,var(--mw),var(--df));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .hero p{max-width:56ch;color:#c8c4bb;font-size:18px;margin:0}
+  .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:26px}
+  .chip{font-size:13px;color:var(--mut);border:1px solid var(--line);border-radius:999px;padding:6px 12px}
+
+  section.games{padding-block:8px 40px;display:grid;gap:28px}
+  .sec-title{display:flex;align-items:baseline;gap:12px;margin:0 0 4px}
+  .sec-title h2{font:700 24px/1 var(--head);margin:0;letter-spacing:.04em}
+  .sec-title span{color:var(--mut);font-size:14px}
+
+  /* oyun kartı */
+  .game{position:relative;border-radius:20px;overflow:hidden;border:1px solid var(--line);background:var(--card)}
+  .game .banner{position:relative;aspect-ratio:1024/500;overflow:hidden;background:#1d1308}
+  .game .banner img{width:100%;height:100%;object-fit:cover}
+  .game .banner::after{content:"";position:absolute;inset:auto 0 0;height:40%;background:linear-gradient(transparent,var(--card))}
+  .game .body{position:relative;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:20px 28px;padding:4px 28px 28px;margin-top:-34px}
+  .ttl{display:flex;align-items:center;gap:16px;min-width:0}
+  .ttl img{width:72px;height:72px;border-radius:18px;box-shadow:0 8px 24px rgba(0,0,0,.45);flex:none}
+  .ttl h3{font:700 28px/1.05 var(--head);margin:0;letter-spacing:.06em}
+  .ttl .tag{font-size:13px;color:var(--mut);margin-top:4px}
+  .desc{grid-column:1/-1;margin:0;color:#cfcac0;max-width:62ch}
+  .feats{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:8px;margin:0;padding:0;list-style:none}
+  .feats li{font-size:13px;padding:6px 11px;border-radius:8px;background:rgba(242,182,50,.08);color:#f1d48e;border:1px solid rgba(242,182,50,.18)}
+  .cta{align-self:center;display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end}
+  .btn{display:inline-flex;align-items:center;gap:10px;text-decoration:none;font-weight:600;font-size:15px;padding:12px 18px;border-radius:12px;white-space:nowrap}
+  .btn svg{width:20px;height:20px;flex:none}
+  .btn.play{background:var(--mw);color:#1a1205;box-shadow:0 6px 20px rgba(242,182,50,.25)}
+  .btn.play:hover{filter:brightness(1.06)}
+  .btn.ghost{border:1px solid var(--line);color:var(--fg)}
+  .btn.ghost:hover{border-color:#3a3a44}
+  .btn.off{border:1px dashed #4a4466;color:#b9b0e8;cursor:default}
+
+  /* ekran görüntüleri: telefonda yana kaydırılıyor */
+  .shots{grid-column:1/-1;display:grid;grid-auto-flow:column;grid-auto-columns:minmax(150px,1fr);align-items:start;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:6px;scrollbar-width:thin}
+  .shots img{width:100%;height:auto;border-radius:12px;border:1px solid var(--line);scroll-snap-align:start;background:#1a1a1f}
+
+  /* divided fate: görsel yok, rüya havası çizimle */
+  .game.df .banner{background:radial-gradient(60% 90% at 30% 110%,rgba(143,124,255,.55),transparent 70%),radial-gradient(50% 80% at 85% -10%,rgba(255,120,170,.28),transparent 70%),linear-gradient(160deg,#0d0b1a,#1a1033 60%,#0b0a14)}
+  .df .split{position:absolute;inset:0;display:grid;grid-template-columns:1fr 1fr}
+  .df .split div{display:grid;place-items:center;font:700 clamp(28px,6vw,56px)/1 var(--head);letter-spacing:.2em}
+  .df .split div:first-child{color:rgba(238,235,228,.92);text-shadow:0 0 30px rgba(143,124,255,.6)}
+  .df .split div:last-child{color:transparent;-webkit-text-stroke:1px rgba(207,198,255,.55);text-shadow:0 0 24px rgba(143,124,255,.35)}
+  .df .split::after{content:"";position:absolute;left:50%;top:12%;bottom:12%;width:1px;background:linear-gradient(transparent,rgba(255,255,255,.5),transparent)}
+  .df .stars{position:absolute;inset:0;background-image:radial-gradient(1.5px 1.5px at 12% 22%,#fff8,transparent),radial-gradient(1px 1px at 33% 64%,#fff6,transparent),radial-gradient(1.5px 1.5px at 58% 18%,#fff7,transparent),radial-gradient(1px 1px at 72% 48%,#fff5,transparent),radial-gradient(1.5px 1.5px at 88% 72%,#fff6,transparent),radial-gradient(1px 1px at 46% 84%,#fff5,transparent)}
+  .df .ttl .ico{width:72px;height:72px;border-radius:18px;flex:none;display:grid;place-items:center;background:linear-gradient(145deg,#2a1d5c,#120d26);border:1px solid #3d3270;font:700 26px/1 var(--head);color:#cfc6ff;letter-spacing:.04em}
+  .df .feats li{background:rgba(143,124,255,.1);color:#cfc6ff;border-color:rgba(143,124,255,.25)}
+
+  /* stüdyo */
+  .about{display:grid;grid-template-columns:1.1fr 1fr;gap:28px;align-items:center;padding:40px 0;border-top:1px solid var(--line)}
+  .about h2{font:700 24px/1.1 var(--head);margin:0 0 10px;letter-spacing:.04em}
+  .about p{margin:0;color:#c8c4bb}
+  .facts{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+  .fact{background:var(--bg2);border:1px solid var(--line);border-radius:14px;padding:16px}
+  .fact b{display:block;font:700 26px/1 var(--head);color:var(--mw)}
+  .fact span{display:block;margin-top:6px;font-size:13px;color:var(--mut)}
+
+  footer{border-top:1px solid var(--line);padding:28px 0 calc(32px + env(safe-area-inset-bottom,0px));color:var(--mut);font-size:14px}
+  footer .wrap{display:flex;flex-wrap:wrap;gap:10px 22px;align-items:center}
+  footer .logo{font-size:14px}
+  footer a{color:var(--mut);text-decoration:none}
+  footer a:hover{color:var(--fg)}
+  footer .sp{margin-left:auto}
+
+  @media (max-width:720px){
+    nav a.hide-s{display:none}
+    .hero{padding:56px 0 44px}
+    .hero p{font-size:16px}
+    .game .body{grid-template-columns:1fr;padding:4px 18px 20px;margin-top:-26px}
+    .cta{justify-content:flex-start}
+    .ttl img,.df .ttl .ico{width:60px;height:60px;border-radius:15px}
+    .ttl h3{font-size:24px}
+    .shots{grid-auto-columns:46%}
+    .about{grid-template-columns:1fr}
+    footer .sp{margin-left:0}
+  }
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 </style>
 </head>
 <body>
+
+<header>
+  <div class="wrap">
+    <a class="logo" href="#">SAOC<small>GAMES</small></a>
+    <nav>
+      <a href="#oyunlar" class="hide-s" data-t="nav_games">Oyunlar</a>
+      <a href="#studyo" class="hide-s" data-t="nav_studio">Stüdyo</a>
+      <button class="lang" id="lang" type="button" aria-label="Dil / Language">EN</button>
+    </nav>
+  </div>
+</header>
+
 <main>
-  <div class="brand">SAOC GAMES</div>
-  <section class="card">
-    <div class="stripe"></div>
-    <h1>MECHANIWORKS</h1>
-    <p>Hurdalıkta parçaları eşleştir, robotunu parça parça topla, garajda güçlendir ve ringde dövüştür.</p>
-    <p class="en">Match scrap parts, build your robot piece by piece, upgrade it in the garage and fight in the ring.</p>
-    <a class="btn" href="https://play.google.com/store/apps/details?id=com.salih.mechanicrush">Google Play'de indir</a>
+  <section class="hero">
+    <div class="wrap">
+      <div class="eyebrow" data-t="eyebrow">Bağımsız oyun stüdyosu</div>
+      <h1 data-t="h1" data-html>Küçük stüdyo, <em>el yapımı</em> oyunlar.</h1>
+      <p data-t="lead">SAOC Games tek kişilik bir stüdyo. Her oyunu baştan sona kendim yapıyorum: hikâyesini, çizimini, sesini, kodunu. Telefonda rahat oynanan, içinde emek hissedilen oyunlar.</p>
+      <div class="chips">
+        <span class="chip" data-t="chip1">Android</span>
+        <span class="chip" data-t="chip2">Uygulama içi satın alma yok</span>
+        <span class="chip" data-t="chip3">Türkiye'den</span>
+      </div>
+    </div>
   </section>
-  <footer>
-    <a href="https://saoc97.github.io/mechanicrush/">Gizlilik politikası / Privacy policy</a>
-    <span>© 2026 SAOC Games</span>
-  </footer>
+
+  <section class="games wrap" id="oyunlar">
+    <div class="sec-title"><h2 data-t="games">Oyunlar</h2><span data-t="games_n">2 oyun</span></div>
+
+    <!-- MECHANIWORKS -->
+    <article class="game">
+      <div class="banner"><img id="mwBanner" src="img/mw_banner.webp" alt="Mechaniworks" width="1024" height="500"></div>
+      <div class="body">
+        <div class="ttl">
+          <img src="img/mw_icon.webp" alt="" width="72" height="72">
+          <div><h3>MECHANIWORKS</h3><div class="tag" data-t="mw_tag">Eşleştirme bulmacası · Robot dövüşü</div></div>
+        </div>
+        <div class="cta">
+          <a class="btn play" href="https://play.google.com/store/apps/details?id=com.salih.mechanicrush" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M4.2 2.6 13.6 12l-9.4 9.4c-.3-.2-.5-.6-.5-1V3.6c0-.4.2-.8.5-1zm10.5 10.5 2.5 2.5-11 6.3 8.5-8.8zm0-2.2L6.2 2.1l11 6.3-2.5 2.5zm3.6-1.9 2.9 1.7c.9.5.9 1.9 0 2.4l-2.9 1.7-2.7-2.7 2.7-3.1z"/></svg>
+            <span data-t="get">Google Play'de indir</span>
+          </a>
+        </div>
+        <p class="desc" data-t="mw_desc">Yaşlı Usta'nın hurdalığında parçaları eşleştir, robotunu parça parça topla. Garajda güçlendir, boyasını seç, ringde rakip robotlarla kapış. On alan, yüzlerce bölüm, her alanın kendi makinesi.</p>
+        <ul class="feats">
+          <li data-t="mw_f1">10 alan, yüzlerce bölüm</li>
+          <li data-t="mw_f2">Robot dövüşleri</li>
+          <li data-t="mw_f3">Garaj ve yükseltmeler</li>
+          <li data-t="mw_f4">7 dil</li>
+        </ul>
+        <div class="shots" id="mwShots">
+          <img src="img/mw_tr_1.webp" alt="" loading="lazy" width="432" height="768">
+          <img src="img/mw_tr_2.webp" alt="" loading="lazy" width="432" height="768">
+          <img src="img/mw_tr_3.webp" alt="" loading="lazy" width="432" height="768">
+          <img src="img/mw_tr_4.webp" alt="" loading="lazy" width="432" height="768">
+        </div>
+      </div>
+    </article>
+
+    <!-- DIVIDED FATE -->
+    <article class="game df">
+      <div class="banner"><div class="stars"></div><div class="split" aria-hidden="true"><div>DIVIDED</div><div>FATE</div></div></div>
+      <div class="body">
+        <div class="ttl">
+          <div class="ico" aria-hidden="true">DF</div>
+          <div><h3>DIVIDED FATE</h3><div class="tag" data-t="df_tag">Roguelike · Rüya ile gerçek arasında</div></div>
+        </div>
+        <div class="cta"><span class="btn off" data-t="soon">Yakında Google Play'de</span></div>
+        <p class="desc" data-t="df_desc">Biri rüyada, biri gerçek hayatta yaşayan iki insanın hikâyesi. Gece rüyanın karanlık sokaklarında hayatta kal, gündüz gerçeğin içine sızan izleri takip et. Her uyku yeni bir yol, her seçim başka bir son.</p>
+        <ul class="feats">
+          <li data-t="df_f1">İki taraf, iki hikâye</li>
+          <li data-t="df_f2">Birden fazla son</li>
+          <li data-t="df_f3">Hikâye odaklı roguelike</li>
+        </ul>
+      </div>
+    </article>
+  </section>
+
+  <section class="wrap" id="studyo">
+    <div class="about">
+      <div>
+        <h2 data-t="about_h">Stüdyo hakkında</h2>
+        <p data-t="about_p">SAOC Games'te oyunlar boş zamanlarda, tek bir masada yapılıyor. Amaç basit: açtığında keyif aldığın, seni oyalamak için değil eğlendirmek için yapılmış oyunlar. Uygulama içi satın alma yok; oyunlar reklamla destekleniyor.</p>
+      </div>
+      <div class="facts">
+        <div class="fact"><b>2</b><span data-t="f_games">oyun</span></div>
+        <div class="fact"><b>7</b><span data-t="f_langs">dil</span></div>
+        <div class="fact"><b>1</b><span data-t="f_dev">geliştirici</span></div>
+      </div>
+    </div>
+  </section>
 </main>
+
+<footer>
+  <div class="wrap">
+    <span class="logo">SAOC<small>GAMES</small></span>
+    <a href="https://saoc97.github.io/mechanicrush/" data-t="privacy_mw">Mechaniworks gizlilik politikası</a>
+    <span class="sp">© 2026 SAOC Games</span>
+  </div>
+</footer>
+
+<script>
+// dil: telefon Türkçeyse Türkçe, değilse İngilizce açılıyor. sağ üstteki düğmeyle değişiyor, seçim hatırlanıyor
+const EN = {
+  nav_games:'Games', nav_studio:'Studio', eyebrow:'Independent game studio',
+  h1:'Small studio, <em>handmade</em> games.',
+  lead:'SAOC Games is a one-person studio. I make every game from start to finish myself: the story, the art, the sound and the code. Games that feel good on a phone and show the work that went into them.',
+  chip1:'Android', chip2:'No in-app purchases', chip3:'Made in Türkiye',
+  games:'Games', games_n:'2 games',
+  mw_tag:'Match-3 puzzle · Robot fights', get:'Get it on Google Play',
+  mw_desc:"Match parts in the old Master's scrapyard and build your robot piece by piece. Upgrade it in the garage, pick its paint and take on rival robots in the ring. Ten areas, hundreds of levels, every area with its own machine.",
+  mw_f1:'10 areas, hundreds of levels', mw_f2:'Robot fights', mw_f3:'Garage and upgrades', mw_f4:'7 languages',
+  df_tag:'Roguelike · Between dream and reality', soon:'Coming soon to Google Play',
+  df_desc:'The story of two people: one lives in a dream, the other in real life. Survive the dark streets of the dream at night, follow the traces leaking into reality by day. Every sleep is a new path, every choice another ending.',
+  df_f1:'Two sides, two stories', df_f2:'Multiple endings', df_f3:'Story-driven roguelike',
+  about_h:'About the studio',
+  about_p:'At SAOC Games, games are made in spare time at a single desk. The goal is simple: games you enjoy opening, made to entertain you, not to keep you hooked. No in-app purchases; the games are supported by ads.',
+  f_games:'games', f_langs:'languages', f_dev:'developer', privacy_mw:'Mechaniworks privacy policy'
+};
+const TRT = {}; document.querySelectorAll('[data-t]').forEach(e => { TRT[e.dataset.t] = e.hasAttribute('data-html') ? e.innerHTML : e.textContent; });
+function setLang(l) {
+  const D = l === 'en' ? EN : TRT;
+  document.documentElement.lang = l;
+  document.querySelectorAll('[data-t]').forEach(e => { const v = D[e.dataset.t]; if (v == null) return; if (e.hasAttribute('data-html')) e.innerHTML = v; else e.textContent = v; });
+  document.getElementById('lang').textContent = l === 'en' ? 'TR' : 'EN';
+  document.getElementById('mwBanner').src = l === 'en' ? 'img/mw_banner_en.webp' : 'img/mw_banner.webp';
+  document.querySelectorAll('#mwShots img').forEach((im, i) => { im.src = 'img/mw_' + (l === 'en' ? 'en' : 'tr') + '_' + (i + 1) + '.webp'; });
+  try { localStorage.setItem('saoc.lang', l); } catch (e) {}
+}
+let L0 = null; try { L0 = localStorage.getItem('saoc.lang'); } catch (e) {}
+if (!L0) L0 = (navigator.language || 'tr').toLowerCase().startsWith('tr') ? 'tr' : 'en';
+if (L0 === 'en') setLang('en');
+document.getElementById('lang').addEventListener('click', () => setLang(document.documentElement.lang === 'en' ? 'tr' : 'en'));
+</script>
 </body>
 </html>
