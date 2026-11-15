@@ -8,6 +8,7 @@
 <meta property="og:title" content="SAOC Games">
 <meta property="og:description" content="Tek kişilik bağımsız oyun stüdyosu. Mechaniworks ve Divided Fate, ikisi de Google Play'de.">
 <meta property="og:image" content="https://saoc97.github.io/img/mw_banner.webp">
+<!-- paylaşım görseli şimdilik Mechaniworks; iki oyunu birlikte göstermek istersen img/df_banner.webp de olur -->
 <meta name="theme-color" content="#08080a">
 <link rel="icon" href="img/mw_icon.webp">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -32,11 +33,11 @@
   .bgfx{position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden}
   .bgfx .blob{position:absolute;width:60vmax;height:60vmax;border-radius:50%;filter:blur(90px);opacity:.22}
   .bgfx .b1{background:var(--mw);top:-25vmax;left:-20vmax;animation:drift1 26s ease-in-out infinite alternate}
-  .bgfx .b2{background:var(--df);bottom:-30vmax;right:-20vmax;animation:drift2 32s ease-in-out infinite alternate}
+  .bgfx .b2{background:var(--df);top:-25vmax;right:-20vmax;opacity:.26;animation:drift2 32s ease-in-out infinite alternate}/* iki ışık da üstte, karşılıklı: biri öne çıkmasın */
   .bgfx .grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);background-size:64px 64px;mask-image:radial-gradient(ellipse at 50% 0%,#000 10%,transparent 70%);-webkit-mask-image:radial-gradient(ellipse at 50% 0%,#000 10%,transparent 70%)}
   .bgfx .grain{position:absolute;inset:-50%;opacity:.07;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");animation:grain 1.2s steps(6) infinite}
   @keyframes drift1{to{transform:translate(18vmax,14vmax) scale(1.1)}}
-  @keyframes drift2{to{transform:translate(-16vmax,-12vmax) scale(1.15)}}
+  @keyframes drift2{to{transform:translate(-18vmax,14vmax) scale(1.1)}}
   @keyframes grain{0%{transform:translate(0,0)}25%{transform:translate(-4%,3%)}50%{transform:translate(3%,-5%)}75%{transform:translate(-2%,4%)}100%{transform:translate(0,0)}}
 
   /* üst çubuk */
@@ -65,16 +66,18 @@
   .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:26px}
   .chip{font-size:13px;color:var(--mut);border:1px solid var(--line);border-radius:999px;padding:6px 12px;background:rgba(255,255,255,.02)}
 
-  /* sağdaki iki kart: telefonda ekran görüntüsü + rüya kartı */
-  .stage{position:relative;height:440px;perspective:1200px}
-  .phone{position:absolute;right:16%;top:0;width:210px;aspect-ratio:9/16;border-radius:30px;padding:8px;background:linear-gradient(160deg,#2a2a33,#0e0e12);box-shadow:0 30px 80px rgba(0,0,0,.6),0 0 0 1px rgba(255,255,255,.08),0 0 60px rgba(242,182,50,.18);transform:rotate(-7deg);animation:float1 7s ease-in-out infinite}
-  .phone img{width:100%;height:100%;object-fit:cover;border-radius:23px;background:#1d1308}
-  .dream{position:absolute;left:4%;bottom:6px;width:230px;aspect-ratio:9/12;border-radius:24px;overflow:hidden;background:radial-gradient(70% 60% at 30% 100%,rgba(143,124,255,.7),transparent 70%),radial-gradient(60% 50% at 90% 0%,rgba(255,122,176,.45),transparent 70%),linear-gradient(160deg,#120e24,#1d1240 60%,#0b0a14);box-shadow:0 30px 80px rgba(0,0,0,.6),0 0 0 1px rgba(143,124,255,.3),0 0 70px rgba(143,124,255,.25);transform:rotate(6deg);animation:float2 8s ease-in-out infinite;display:grid;place-items:center}
-  .dream b{font:700 30px/1.05 var(--head);letter-spacing:.18em;text-align:center;color:#efeaff;text-shadow:0 0 24px rgba(143,124,255,.8)}
-  .dream b span{display:block;color:transparent;-webkit-text-stroke:1px rgba(220,212,255,.75)}
-  .dream::before{content:"";position:absolute;inset:0;background-image:radial-gradient(1.5px 1.5px at 15% 20%,#fff,transparent),radial-gradient(1px 1px at 70% 30%,#fffa,transparent),radial-gradient(1.5px 1.5px at 40% 75%,#fffc,transparent),radial-gradient(1px 1px at 85% 80%,#fff9,transparent),radial-gradient(1px 1px at 25% 55%,#fff8,transparent);animation:twinkle 3s ease-in-out infinite alternate}
-  @keyframes float1{50%{transform:rotate(-5deg) translateY(-14px)}}
-  @keyframes float2{50%{transform:rotate(8deg) translateY(12px)}}
+  /* sağda iki telefon, iki oyun: aynı boy, aynı ağırlık. biri sarı, biri mor parlıyor */
+  .stage{position:relative;height:460px;perspective:1200px}
+  .phone{position:absolute;top:0;width:200px;aspect-ratio:9/16;border-radius:30px;padding:8px;background:linear-gradient(160deg,#2a2a33,#0e0e12);transition:z-index 0s}
+  .phone img{width:100%;height:100%;object-fit:cover;border-radius:23px}
+  .phone.mw{right:6%;top:34px;box-shadow:0 30px 80px rgba(0,0,0,.6),0 0 0 1px rgba(255,255,255,.08),0 0 60px rgba(242,182,50,.22);transform:rotate(7deg);animation:float1 7s ease-in-out infinite}
+  .phone.mw img{background:#1d1308}
+  .phone.df{left:6%;box-shadow:0 30px 80px rgba(0,0,0,.6),0 0 0 1px rgba(143,124,255,.3),0 0 60px rgba(143,124,255,.28);transform:rotate(-7deg);animation:float2 8s ease-in-out infinite}
+  .phone.df img{background:#120e24}
+  .phone span{position:absolute;left:50%;bottom:-34px;transform:translateX(-50%);font:600 11px/1 var(--head);letter-spacing:.28em;white-space:nowrap;color:var(--mut)}
+  .phone.mw span{color:#f1d48e}.phone.df span{color:#cfc6ff}
+  @keyframes float1{50%{transform:rotate(5deg) translateY(-14px)}}
+  @keyframes float2{50%{transform:rotate(-5deg) translateY(-12px)}}
   @keyframes twinkle{to{opacity:.35}}
 
   /* düğmeler */
@@ -87,7 +90,8 @@
   .btn.ghost:hover{border-color:rgba(255,255,255,.25)}
 
   /* oyunlar */
-  section.games{padding:30px 0 60px;display:grid;gap:36px}
+  section.games{padding-top:30px;padding-bottom:60px;display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:start}
+  section.games .sec-title{grid-column:1/-1}
   .sec-title{display:flex;align-items:flex-end;gap:16px;margin:0}
   .sec-title h2{font:700 clamp(28px,4vw,40px)/1 var(--head);margin:0;letter-spacing:.03em}
   .sec-title span{color:var(--mut);font-size:14px;padding-bottom:4px}
@@ -105,24 +109,28 @@
   .game .banner img{width:100%;height:100%;object-fit:cover;transition:transform .8s cubic-bezier(.2,.7,.2,1)}
   .game:hover .banner img{transform:scale(1.05)}
   .game .banner::after{content:"";position:absolute;inset:auto 0 0;height:55%;background:linear-gradient(transparent,var(--card))}
-  .game .body{position:relative;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:22px 28px;padding:4px 30px 30px;margin-top:-46px}
+  .game .body{position:relative;display:grid;grid-template-columns:minmax(0,1fr);gap:20px;padding:4px 26px 28px;margin-top:-46px}
   .ttl{display:flex;align-items:center;gap:18px;min-width:0}
   .ttl img,.ttl .ico{width:80px;height:80px;border-radius:20px;box-shadow:0 12px 30px rgba(0,0,0,.55),0 0 0 1px rgba(255,255,255,.08);flex:none}
-  .ttl h3{font:700 32px/1.02 var(--head);margin:0;letter-spacing:.06em}
+  .ttl h3{font:700 28px/1.02 var(--head);margin:0;letter-spacing:.06em}
+  .desc{min-height:6.4em}
   .ttl .tag{font-size:14px;color:var(--mut);margin-top:6px}
   .desc{grid-column:1/-1;margin:0;color:#d0cbc1;max-width:64ch;font-size:16.5px}
   .feats{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:8px;margin:0;padding:0;list-style:none}
   .feats li{font-size:13px;padding:7px 12px;border-radius:10px;background:rgba(242,182,50,.08);color:#f1d48e;border:1px solid rgba(242,182,50,.2)}
-  .cta{align-self:center;display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end}
+  .cta{display:flex;gap:10px;flex-wrap:wrap}
 
   /* ekran görüntüleri: telefonda yana kaydırılıyor */
-  .shots{grid-column:1/-1;display:grid;grid-auto-flow:column;grid-auto-columns:minmax(150px,1fr);align-items:start;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:6px;scrollbar-width:thin}
+  .shots{grid-column:1/-1;display:grid;grid-auto-flow:column;grid-auto-columns:calc((100% - 24px)/3);align-items:start;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:6px;scrollbar-width:thin}
   .shots img{width:100%;height:auto;border-radius:14px;border:1px solid var(--line);scroll-snap-align:start;background:#1a1a1f;transition:transform .3s}
   .shots img:hover{transform:translateY(-4px)}
 
   /* divided fate: görsel yok, rüya havası çizimle */
-  .game.df .banner{background:radial-gradient(60% 90% at 30% 110%,rgba(143,124,255,.6),transparent 70%),radial-gradient(50% 80% at 85% -10%,rgba(255,122,176,.32),transparent 70%),linear-gradient(160deg,#0d0b1a,#1a1033 60%,#0b0a14)}
-  .df .split{position:absolute;inset:0;display:grid;grid-template-columns:1fr 1fr}
+  .game.df .banner{background:#0d0b1a}
+  .game.df .banner img{position:absolute;inset:0}
+  /* görselin üstünde yazı okunsun: hafif mor bir perde */
+  .game.df .banner .veil{position:absolute;inset:0;background:radial-gradient(60% 90% at 30% 110%,rgba(143,124,255,.35),transparent 70%),linear-gradient(180deg,rgba(13,11,26,.15),rgba(13,11,26,.35))}
+  .df .split{position:absolute;inset:0;display:grid;grid-template-columns:1fr 1fr;z-index:1}
   .df .split div{display:grid;place-items:center;font:700 clamp(30px,6.5vw,64px)/1 var(--head);letter-spacing:.2em}
   .df .split div:first-child{color:rgba(238,235,228,.95);text-shadow:0 0 30px rgba(143,124,255,.7);animation:dreamA 6s ease-in-out infinite}
   .df .split div:last-child{color:transparent;-webkit-text-stroke:1px rgba(207,198,255,.65);text-shadow:0 0 24px rgba(143,124,255,.4);animation:dreamB 6s ease-in-out infinite}
@@ -131,6 +139,7 @@
   @keyframes dreamB{50%{transform:translateX(6px);opacity:1}}
   @keyframes seam{50%{opacity:.35}}
   .df .stars{position:absolute;inset:0;background-image:radial-gradient(1.5px 1.5px at 12% 22%,#fff8,transparent),radial-gradient(1px 1px at 33% 64%,#fff6,transparent),radial-gradient(1.5px 1.5px at 58% 18%,#fff7,transparent),radial-gradient(1px 1px at 72% 48%,#fff5,transparent),radial-gradient(1.5px 1.5px at 88% 72%,#fff6,transparent),radial-gradient(1px 1px at 46% 84%,#fff5,transparent),radial-gradient(1px 1px at 6% 70%,#fff6,transparent),radial-gradient(1.5px 1.5px at 94% 28%,#fff7,transparent);animation:twinkle 4s ease-in-out infinite alternate}
+  .df .ttl img.ico{display:block}
   .df .ttl .ico{display:grid;place-items:center;background:linear-gradient(145deg,#3a2a80,#120d26);border:1px solid #4d40a0;font:700 28px/1 var(--head);color:#dcd4ff;letter-spacing:.04em;text-shadow:0 0 14px rgba(143,124,255,.8)}
   .df .feats li{background:rgba(143,124,255,.1);color:#d6ceff;border-color:rgba(143,124,255,.28)}
 
@@ -157,9 +166,13 @@
 
   @media (max-width:860px){
     .hero .wrap{grid-template-columns:1fr}
-    .stage{height:330px;max-width:420px}
-    .phone{width:160px;right:8%}
-    .dream{width:180px;left:2%}
+    .stage{height:350px;max-width:420px;margin:0 auto;width:100%}
+    .phone{width:150px}
+    .phone.mw{right:4%}.phone.df{left:4%}
+  }
+  @media (max-width:960px){
+    section.games{grid-template-columns:1fr}
+    .desc{min-height:0}
   }
   @media (max-width:720px){
     nav a.hide-s{display:none}
@@ -170,7 +183,7 @@
     .ttl img,.ttl .ico{width:64px;height:64px;border-radius:16px}
     .ttl h3{font-size:25px}
     .game .num{top:12px;left:12px}.game .badge{top:12px;right:12px}
-    .shots{grid-auto-columns:46%}
+    .shots{grid-auto-columns:42%}
     .about{grid-template-columns:1fr}
     .facts{grid-template-columns:repeat(3,1fr)}
     footer .sp{margin-left:0}
@@ -215,8 +228,8 @@
         </div>
       </div>
       <div class="stage" aria-hidden="true">
-        <div class="dream"><b>DIVIDED<span>FATE</span></b></div>
-        <div class="phone"><img id="heroShot" src="img/mw_tr_1.webp" alt="" width="432" height="768"></div>
+        <div class="phone df"><img id="heroDf" src="img/df_tr_2.webp" alt="" width="540" height="960"><span>DIVIDED FATE</span></div>
+        <div class="phone mw"><img id="heroShot" src="img/mw_tr_1.webp" alt="" width="432" height="768"><span>MECHANIWORKS</span></div>
       </div>
     </div>
   </section>
@@ -263,10 +276,10 @@
       <div class="num">02</div>
       <div class="badge"><i></i><span data-t="out">Yayında</span></div>
       <div class="in">
-        <div class="banner"><div class="stars"></div><div class="split" aria-hidden="true"><div>DIVIDED</div><div>FATE</div></div></div>
+        <div class="banner"><img src="img/df_banner.webp" alt="Divided Fate" width="1536" height="690"><div class="veil"></div><div class="stars"></div><div class="split" aria-hidden="true"><div>DIVIDED</div><div>FATE</div></div></div>
         <div class="body">
           <div class="ttl">
-            <div class="ico" aria-hidden="true">DF</div>
+            <img class="ico" src="img/df_icon.webp" alt="" width="80" height="80">
             <div><h3>DIVIDED FATE</h3><div class="tag" data-t="df_tag">Roguelike · Rüya ile gerçek arasında</div></div>
           </div>
           <div class="cta">
@@ -281,7 +294,14 @@
             <li data-t="df_f1">İki taraf, iki hikâye</li>
             <li data-t="df_f2">Birden fazla son</li>
             <li data-t="df_f3">Hikâye odaklı roguelike</li>
+            <li data-t="df_f4">6 dil</li>
           </ul>
+          <div class="shots" id="dfShots">
+            <img src="img/df_tr_1.webp" alt="" loading="lazy" width="540" height="960">
+            <img src="img/df_tr_2.webp" alt="" loading="lazy" width="540" height="960">
+            <img src="img/df_tr_3.webp" alt="" loading="lazy" width="540" height="960">
+            <img src="img/df_tr_4.webp" alt="" loading="lazy" width="540" height="960">
+          </div>
         </div>
       </div>
     </article>
@@ -325,7 +345,7 @@ const EN = {
   mw_f1:'10 areas, hundreds of levels', mw_f2:'Robot fights', mw_f3:'Garage and upgrades', mw_f4:'7 languages',
   df_tag:'Roguelike · Between dream and reality',
   df_desc:'The story of two people: one lives in a dream, the other in real life. Survive the dark streets of the dream at night, follow the traces leaking into reality by day. Every sleep is a new path, every choice another ending.',
-  df_f1:'Two sides, two stories', df_f2:'Multiple endings', df_f3:'Story-driven roguelike',
+  df_f1:'Two sides, two stories', df_f2:'Multiple endings', df_f3:'Story-driven roguelike', df_f4:'6 languages',
   about_h:'About the studio',
   about_p:'At SAOC Games, games are made in spare time at a single desk. The goal is simple: games you enjoy opening, made to entertain you, not to keep you hooked. No in-app purchases; the games are supported by ads.',
   f_games:'games out', f_langs:'languages', f_dev:'developer', privacy_mw:'Mechaniworks privacy policy'
@@ -339,6 +359,8 @@ function setLang(l) {
   document.getElementById('mwBanner').src = l === 'en' ? 'img/mw_banner_en.webp' : 'img/mw_banner.webp';
   document.getElementById('heroShot').src = 'img/mw_' + (l === 'en' ? 'en' : 'tr') + '_1.webp';
   document.querySelectorAll('#mwShots img').forEach((im, i) => { im.src = 'img/mw_' + (l === 'en' ? 'en' : 'tr') + '_' + (i + 1) + '.webp'; });
+  document.getElementById('heroDf').src = 'img/df_' + (l === 'en' ? 'en' : 'tr') + '_2.webp';
+  document.querySelectorAll('#dfShots img').forEach((im, i) => { im.src = 'img/df_' + (l === 'en' ? 'en' : 'tr') + '_' + (i + 1) + '.webp'; });
   try { localStorage.setItem('saoc.lang', l); } catch (e) {}
 }
 let L0 = null; try { L0 = localStorage.getItem('saoc.lang'); } catch (e) {}
